@@ -7,6 +7,9 @@ let gameInterval = null; // store interval ID here
 let countdownTime = 10;
 let countdownInterval = null;
 const countdownDiv = document.getElementById('countdown');
+let hits = 0;
+let misses = 0;
+let score = 0;
 
 // Reset all holes to the default image
 function resetHoles() {

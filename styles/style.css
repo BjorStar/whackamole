@@ -16,6 +16,11 @@ h1 {
   display: none !important;
 }
 
+.game-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
 .game-info {
   display: flex;
   justify-content: space-around;
