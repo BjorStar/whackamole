@@ -10,6 +10,16 @@ const countdownDiv = document.getElementById('countdown');
 let hits = 0;
 let misses = 0;
 let score = 0;
+const scoreDisplay = document.getElementById("score");
+const moles = document.querySelectorAll(".mole");
+
+// Add click event to each mole
+moles.forEach(mole => {
+  mole.addEventListener("click", () => {
+    score++;
+    scoreDisplay.textContent = score;
+  });
+});
 
 // Reset all holes to the default image
 function resetHoles() {
