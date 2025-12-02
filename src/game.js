@@ -1,33 +1,14 @@
-const holes = document.querySelectorAll('.holes img');
-const startBtn = document.getElementById('start-btn');
-const stopBtn = document.getElementById('stop-btn');
-const countdownDiv = document.getElementById('countdown');
-const hitsDisplay = document.getElementById('hits');
-const missesDisplay = document.getElementById('misses');
-
-let lastIndex = -1;
-let gameInterval = null;
-let countdownInterval = null;
-let countdownTime = 10;
-let hits = 0;
-let misses = 0;
-
-function resetHoles() {
-  holes.forEach(img => img.src = './img/hole.png');
-}
-
-function showMole() {
-  resetHoles();
-  let randomIndex;
-  do {
-    randomIndex = Math.floor(Math.random() * holes.length);
-  } while (randomIndex === lastIndex);
-  lastIndex = randomIndex;
-  holes[randomIndex].src = './img/mole.png';
-}
+const usernameInput = document.getElementById('username');
 
 function startGame() {
   if (gameInterval || countdownInterval) return;
+
+  // Require a username before starting
+  const username = usernameInput.value.trim();
+  if (!username) {
+    alert("Please enter your name before starting!");
+    return;
+  }
 
   hits = 0;
   misses = 0;
@@ -51,20 +32,15 @@ function stopGame() {
   gameInterval = null;
   countdownInterval = null;
   resetHoles();
+
+  // Save score with username
+  const username = usernameInput.value.trim();
+  if (username) {
+    let highscores = JSON.parse(localStorage.getItem("highscores")) || [];
+    highscores.push({ name: username, score: hits });
+    highscores.sort((a, b) => b.score - a.score);
+    localStorage.setItem("highscores", JSON.stringify(highscores));
+    showHighscores();
+  }
 }
-
-holes.forEach(hole => {
-  hole.addEventListener('click', () => {
-    if (hole.src.includes('mole.png')) {
-      hits++;
-    } else {
-      misses++;
-    }
-    hitsDisplay.textContent = hits;
-    missesDisplay.textContent = misses;
-  });
-});
-
-startBtn.addEventListener('click', startGame);
-stopBtn.addEventListener('click', stopGame);
 
