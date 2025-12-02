@@ -2,131 +2,60 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./styles/style.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Jolly+Lodger&display=swap" rel="stylesheet" />
-    <title>Whac-A-Mole</title>
-    <style>
-        .hidden {
-            display: none;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./styles/style.css" />
+  <title>Whac-A-Mole</title>
+  <style>
+    .hidden { display: none; }
+  </style>
 </head>
 
 <body>
-    <h1>Whac-A-Mole</h1>
+  <h1>Whac-A-Mole</h1>
 
-    <!-- Menu -->
-    <nav id="nav">
-        <!-- menu goes here -->
-    </nav>
+  <!-- Game Section -->
+  <section id="game">
+    <div class="game-info">
+      <div>
+        <div>Seconds left</div>
+        <span id="countdown">10</span>
+      </div>
+      <div>
+        <div>Hits</div>
+        <span id="hits">0</span>
+      </div>
+      <div>
+        <div>Misses</div>
+        <span id="misses">0</span>
+      </div>
+      <div>
+        <div>Score</div>
+        <span id="score">0</span>
+      </div>
+    </div>
 
-    <!-- Player Profile -->
-    <section id="profile" class="hidden">
-        <h2>Player Profile</h2>
-    </section>
+    <div id="game-board">
+      <div class="holes"><img id="hole-1" src="./img/hole.png" alt="hole"></div>
+      <div class="holes"><img id="hole-2" src="./img/hole.png" alt="hole"></div>
+      <div class="holes"><img id="hole-3" src="./img/hole.png" alt="hole"></div>
+      <div class="holes"><img id="hole-4" src="./img/hole.png" alt="hole"></div>
+      <div class="holes"><img id="hole-5" src="./img/hole.png" alt="hole"></div>
+      <div class="holes"><img id="hole-6" src="./img/hole.png" alt="hole"></div>
+    </div>
 
-    <!-- Game -->
-    <section id="game" class="active">
-        <div class="game-container">
-            <div class="game-info">
-                <div>
-                    <div>Seconds left</div>
-                    <span id="countdown">10</span>
-                </div>
+    <button id="start-btn">Start Game</button>
+    <button id="stop-btn">Stop Game</button>
+  </section>
 
-                <div>
-                    <div>Hits</div>
-                    <span id="hits">0</span>
-                </div>
+  <!-- High Scores Section -->
+  <section id="high-score" class="hidden">
+    <h2>High Scores</h2>
+    <ol id="scoreList"></ol>
+    <button id="back-btn">Back to Game</button>
+  </section>
 
-                <div>
-                    <div>Misses</div>
-                    <span id="misses">0</span>
-                </div>
-            </div>
-
-            <div id="game-board">
-                <div class="holes">
-                    <img id="hole-1" src="./img/hole.png" alt="" />
-                </div>
-                <div class="holes">
-                    <img id="hole-2" src="./img/hole.png" alt="" />
-                </div>
-                <div class="holes">
-                    <img id="hole-3" src="./img/hole.png" alt="" />
-                </div>
-                <div class="holes">
-                    <img id="hole-4" src="./img/hole.png" alt="" />
-                </div>
-                <div class="holes">
-                    <img id="hole-5" src="./img/hole.png" alt="" />
-                </div>
-                <div class="holes">
-                    <img id="hole-6" src="./img/hole.png" alt="" />
-                </div>
-            </div>
-
-            <button id="start-btn">Start Game</button>
-        </div>
-
-        <button id="stop-btn">STOP</button>
-    </section>
-
-    <!-- High Scores -->
-    <section id="high-score" class="hidden">
-        <h2>High Scores</h2>
-        <ol id="scoreList"></ol>
-        <button id="back-btn">Back to Game</button>
-    </section>
-
-    <script>
-        let hits = 0;
-        const hitsDisplay = document.getElementById("hits");
-        const scoreList = document.getElementById("scoreList");
-
-        // Example: increment hits when clicking anywhere (replace with mole logic)
-        document.getElementById("game-board").addEventListener("click", () => {
-            hits++;
-            hitsDisplay.textContent = hits;
-        });
-
-        // Stop button → save score
-        document.getElementById("stop-btn").addEventListener("click", () => {
-            const username = prompt("Enter your username:");
-            if (username) {
-                let highscores = JSON.parse(localStorage.getItem("highscores")) || [];
-                highscores.push({ name: username, score: hits });
-                highscores.sort((a, b) => b.score - a.score);
-                localStorage.setItem("highscores", JSON.stringify(highscores));
-                showHighscores();
-            }
-        });
-
-        // Back button
-        document.getElementById("back-btn").addEventListener("click", () => {
-            document.getElementById("high-score").classList.add("hidden");
-            document.getElementById("game").classList.remove("hidden");
-            hits = 0;
-            hitsDisplay.textContent = hits;
-        });
-
-        // Show highscores
-        function showHighscores() {
-            scoreList.innerHTML = "";
-            let highscores = JSON.parse(localStorage.getItem("highscores")) || [];
-            highscores.slice(0, 10).forEach(entry => {
-                const li = document.createElement("li");
-                li.textContent = `${entry.name}: ${entry.score}`;
-                scoreList.appendChild(li);
-            });
-            document.getElementById("game").classList.add("hidden");
-            document.getElementById("high-score").classList.remove("hidden");
-        }
-    </script>
+  <script src="./src/game.js"></script>
 </body>
 
 </html>
